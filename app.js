@@ -1,4 +1,5 @@
 require('dotenv').config()
+const cors = require('cors')
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -19,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(cors({ optionsSuccessStatus: 200 }))
 app.use('/', indexRouter);
 app.use('/api', apiRouter)
 
@@ -39,5 +40,7 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 const PORT = process.env.PORT || 5000
-app.listen(PORT, () => console.log(`listening: http://localhost:${PORT}`))
+const listener = app.listen(process.env.PORT, () => {
+  console.log("May the Power be with you on this port " + listener.address().port);
+});
 module.exports = app;
